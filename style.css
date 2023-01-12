@@ -1,0 +1,21 @@
+header {
+  /* sets background of header and centers logo horizontally*/
+  background-color: rgb(73, 73, 73);
+  height: 5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#logo {
+  /* Sets color for logo text */
+  color: white;
+}
+main {
+  /* Background color for main to check size*/
+  background-color: whitesmoke;
+  height: 100vh;
+  box-shadow: 0px 0px 34px -3px rgba(0, 0, 0, 0.57);
+}
+#bankTextContainer {
+  justify-content: space-around;
+}
