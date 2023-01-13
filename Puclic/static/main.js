@@ -1,18 +1,37 @@
+// import fetchPosts from "./js/api/posts.js";
+// import postsView from "./js/posts/postsView.js";
+import {
+  addLoanElementsToDom,
+  addLoanToBalance,
+  resetBankBalance,
+  addToBankBalance,
+  removeLoanElementFromDom,
+  getBankBalance,
+  loanTemplate,
+} from "./js/module/bankUtils.js";
+
+// const InitialPosts = await fetchPosts();
+// postsView.setPosts(InitialPosts);
+
+// console.log(InitialPosts);
+
+//Global functions
+
+const getElementById = (element) => document.getElementById(element); //Element helper func
+const updateInnerText = (element, text) => (element.innerText = text); //Text add helper
+
 //Bank section
 
 //Setting up the elements
-const bankBalanceElement = document.getElementById("bankBalanceAmount");
-const getLoanButtonElement = document.getElementById("getLoanButton");
-const getCardTextElement = document.getElementById("bankTextContainer");
-const getLoanTextElement = document.getElementById("loanContainer");
+const bankBalanceElement = getElementById("bankBalanceAmount");
+const getLoanButtonElement = getElementById("getLoanButton");
+const getCardTextElement = getElementById("bankTextContainer");
+const getLoanTextElement = getElementById("loanContainer");
 
 const loanTextElement = document.createElement("p");
 const loanAmountElement = document.createElement("p");
 
-let bankBalanceAmount = 0; //Bank balance
-let loanAmountTotal = 0; //Total amount of current loan
-
-bankBalanceElement.innerText = bankBalanceAmount; //Initial value for bank balance
+bankBalanceElement.innerText = getBankBalance(); //Initial value for bank balance
 
 getLoanButtonElement.addEventListener("click", () => {
   //If get loan button pressed, asks for loan amount
@@ -60,8 +79,13 @@ bankTransferButton.addEventListener("click", () => {
     loanAmountTotal -= tenPercent;
   }
   bankBalanceAmount += workBalanceAmount;
-  bankBalanceElement.innerText = bankBalanceAmount;
-  loanAmountElement.innerText = loanAmountTotal + "€";
+
+  updateInnerText(bankBalanceElement, bankBalanceAmount);
+  updateInnerText(loanAmountElement, loanAmountTotal + "€");
+
+  workBalanceAmount = 0;
+
+  updateInnerText(workBalanceAmountElement, workBalanceAmount);
 });
 
 workButtonElement.addEventListener("click", () => {
@@ -69,5 +93,8 @@ workButtonElement.addEventListener("click", () => {
   workBalanceAmount += 100;
 
   //update the info to html
-  workBalanceAmountElement.innerText = workBalanceAmount;
+  updateInnerText(workBalanceAmountElement, workBalanceAmount);
 });
+
+addLoanElementsToDom(loanTemplate);
+removeLoanElementFromDom();
