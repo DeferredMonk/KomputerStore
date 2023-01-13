@@ -27,7 +27,9 @@
       <!--  Main section, main has two containers. 
             One for bank work and filter. 
             The other is to list the laptops -->
-      <div class="d-flex p-5">
+      <div class="d-flex p-5" id="upperCardsContainer">
+        <!--Container for card elements.
+            using flex it allows for responsivenes -->
         <div class="card text-center mb-3" style="width: 18rem" id="bank-card">
           <div class="card-body">
             <h5 class="card-title">Nordea</h5>
@@ -35,11 +37,25 @@
             <div class="d-flex flex-column card-text" id="bankTextContainer">
               <div id="balanceContainer" class="d-flex">
                 <p>Balance</p>
-              <p><span id="bankBalanceAmount"></span>€</p>
+                <p><span id="bankBalanceAmount"></span>€</p>
               </div>
               <div id="loanContainer" class="d-flex"></div>
             </div>
             <button class="btn btn-primary" id="getLoanButton">Get loan</button>
+          </div>
+        </div>
+        <div class="card text-center mb-3" style="width: 18rem" id="bank-card">
+          <div class="card-body">
+            <h5 class="card-title">Work</h5>
+
+            <div class="d-flex flex-column card-text" id="bankTextContainer">
+              <div id="balanceContainer" class="d-flex">
+                <p>Balance</p>
+                <p><span id="workBalanceAmount"></span>€</p>
+              </div>
+            </div>
+            <button class="btn btn-primary" id="bankTransferButton">Trf Bank</button>
+            <button class="btn btn-primary" id="workButton">Work</button>
           </div>
         </div>
       </div>
