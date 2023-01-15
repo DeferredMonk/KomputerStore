@@ -1,4 +1,10 @@
-import { getElementById } from "./utilsHelper.js";
+import {
+  getElementById,
+  addToBalance,
+  addElementToDom,
+  getCardTextElement,
+  updateInnerText,
+} from "./utilsHelper.js";
 
 // Variables
 let bankBalanceAmount = 0; //Bank balance
@@ -10,16 +16,21 @@ let loanElement = (loanAmount) => `<div id="loanContainer" class="d-flex">
                 </div>`;
 
 //Functions
-const addToBankBalance = (amount) => (bankBalanceAmount += amount);
-const getBankBalance = () => bankBalanceAmount;
-const resetBankBalance = () => (bankBalanceAmount = 0);
+const addToBankBalance = (amount) => {
+  bankBalanceAmount = addToBalance(
+    bankBalanceAmount,
+    amount,
+    getElementById("bankBalanceAmount")
+  );
+};
+
 const addLoanToBalance = (loanAmount) => {
   let alreadyInDebt = document.getElementById("loanAmount");
-
+  getElementById("repayLoanButton").style.visibility = "visible";
   if (!alreadyInDebt) {
-    if (loanAmount <= getBankBalance() * 2 && loanAmount) {
-      updateBankBalance(loanAmount);
-      addLoanElementsToDom(loanElement(loanAmount));
+    if (loanAmount <= bankBalanceAmount * 2 && loanAmount) {
+      addToBankBalance(loanAmount);
+      addElementToDom(getCardTextElement, loanElement(loanAmount));
     } else if (!loanAmount) {
       alert("bad input!");
     } else {
@@ -32,24 +43,4 @@ const addLoanToBalance = (loanAmount) => {
   }
 };
 
-const updateBankBalance = (newValue) => {
-  const bankBalance = addToBankBalance(newValue);
-  getElementById("bankBalanceAmount").innerText = bankBalance; //Update balance to dom
-};
-
-const addLoanElementsToDom = (template) => {
-  const cardTextElement = getElementById("bankTextContainer");
-  cardTextElement.innerHTML += template;
-};
-const removeLoanElementFromDom = () =>
-  document.getElementById("loanContainer").remove();
-
-export {
-  addLoanElementsToDom,
-  addLoanToBalance,
-  resetBankBalance,
-  addToBankBalance,
-  removeLoanElementFromDom,
-  getBankBalance,
-  loanElement,
-};
+export { addLoanToBalance, bankBalanceAmount, loanElement, addToBankBalance };

@@ -39,7 +39,6 @@
                 <p>Balance</p>
                 <p><span id="bankBalanceAmount"></span>€</p>
               </div>
-              
             </div>
             <button class="btn btn-primary" id="getLoanButton">Get loan</button>
           </div>
@@ -47,13 +46,19 @@
         <div class="card text-center mb-3" style="width: 18rem" id="bank-card">
           <div class="card-body">
             <h5 class="card-title">Work</h5>
-
             <div class="d-flex flex-column card-text" id="bankTextContainer">
               <div id="balanceContainer" class="d-flex">
                 <p>Balance</p>
                 <p><span id="workBalanceAmount"></span>€</p>
               </div>
             </div>
+            <button
+              class="btn btn-primary"
+              id="repayLoanButton"
+              style="visibility: hidden"
+            >
+              Repay loan
+            </button>
             <button class="btn btn-primary" id="bankTransferButton">
               Trf Bank
             </button>

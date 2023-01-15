@@ -1,27 +1,68 @@
-let workBalanceAmount = 0;
-workBalanceAmountElement.innerText = workBalanceAmount;
+import {
+  bankBalanceElement,
+  getLoanButtonElement,
+  getCardTextElement,
+  getLoanTextElement,
+  getElementById,
+  updateInnerText,
+  workButtonElement,
+  bankTransferButton,
+  workBalanceAmountElement,
+  loanAmount,
+  addToBalance,
+  resetBalance,
+  loanAmountElement,
+  repayLoanButtonElement,
+} from "./utilsHelper.js";
 
+import { addToBankBalance } from "./bankUtils.js";
+
+//Variables
+let workBalanceAmount = 0; //Initial work balance
+let currentLoanAmount = 0;
+
+//Functions
+const getPaidForWork = (amount) => {
+  workBalanceAmount += amount; //Adds a certain amount of € to work balance
+  updateInnerText(workBalanceAmountElement, workBalanceAmount); //Update element with new balance
+};
+
+//Event listeners
 bankTransferButton.addEventListener("click", () => {
-  removeLoanElementFromDom();
-  if (loanAmountTotal > 0) {
+  //Bank transfer button handler
+  if (loanAmount() > 0) {
     let tenPercent = workBalanceAmount * 0.1;
     workBalanceAmount -= tenPercent;
-    loanAmountTotal -= tenPercent;
+    currentLoanAmount = loanAmount() - tenPercent;
+    updateInnerText(getElementById("loanAmount"), currentLoanAmount);
   }
-  bankBalanceAmount += workBalanceAmount;
+  if (loanAmount() <= 0 && document.getElementById("loanContainer") != null) {
+    updateInnerText(getElementById("loanAmount"), 0);
+    document.getElementById("loanContainer").remove();
+  }
 
-  updateInnerText(bankBalanceElement, bankBalanceAmount);
-  updateInnerText(loanAmountElement, loanAmountTotal + "€");
-
-  workBalanceAmount = 0;
-
-  updateInnerText(workBalanceAmountElement, workBalanceAmount);
+  addToBankBalance(workBalanceAmount);
+  workBalanceAmount = resetBalance(workBalanceAmount, workBalanceAmountElement);
 });
 
 workButtonElement.addEventListener("click", () => {
   //Work button handler adds 100 to work balance
-  workBalanceAmount += 100;
-
-  //update the info to html
-  updateInnerText(workBalanceAmountElement, workBalanceAmount);
+  getPaidForWork(100);
 });
+repayLoanButtonElement.addEventListener("click", () => {
+  currentLoanAmount = loanAmount() - workBalanceAmount;
+  let loanHelper =
+    loanAmount() > workBalanceAmount
+      ? loanAmount() - workBalanceAmount
+      : workBalanceAmount - loanAmount();
+  updateInnerText(getElementById("loanAmount"), currentLoanAmount);
+  if (currentLoanAmount <= 0) {
+    getElementById("repayLoanButton").style.visibility = "hidden";
+    document.getElementById("loanContainer").remove();
+  }
+  workBalanceAmount = resetBalance(workBalanceAmount, workBalanceAmountElement);
+  addToBankBalance(loanHelper);
+  console.log(currentLoanAmount, loanHelper);
+});
+
+export { workBalanceAmount };

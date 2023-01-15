@@ -1,32 +1,22 @@
-// import fetchPosts from "./js/api/posts.js";
-// import postsView from "./js/posts/postsView.js";
-import {
-  addLoanElementsToDom,
-  addLoanToBalance,
-  resetBankBalance,
-  addToBankBalance,
-  removeLoanElementFromDom,
-  getBankBalance,
-  loanElement,
-} from "./js/module/bankUtils.js";
+import { addLoanToBalance, bankBalanceAmount } from "./js/module/bankUtils.js";
 
 import {
   bankBalanceElement,
   getLoanButtonElement,
-  getCardTextElement,
-  getLoanTextElement,
+  updateInnerText,
+  workBalanceAmountElement,
 } from "./js/module/utilsHelper.js";
 
-// const InitialPosts = await fetchPosts();
-// postsView.setPosts(InitialPosts);
+import { workBalanceAmount } from "./js/module/workUtils.js";
 
-const loanTextElement = document.createElement("p");
-const loanAmountElement = document.createElement("p");
+//Sets initial value for bank balance
+updateInnerText(bankBalanceElement, bankBalanceAmount);
+//Sets initial value for work balance
+updateInnerText(workBalanceAmountElement, workBalanceAmount);
 
-bankBalanceElement.innerText = getBankBalance(); //Initial value for bank balance
-
+//Loan button handler
 getLoanButtonElement.addEventListener("click", () => {
-  //Userinput for loan amount
+  //User input for loan amount
   let loanAmount = prompt("How much would you like to owe us?");
 
   //If cancel pressed nothing happens
@@ -37,6 +27,3 @@ getLoanButtonElement.addEventListener("click", () => {
   //Loan handler
   addLoanToBalance(+loanAmount);
 });
-
-//Work section
-
