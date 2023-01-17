@@ -15,7 +15,7 @@ const repayLoanButtonElement = getElementById("repayLoanButton");
 
 const elementVisible = (element, boolean) => {
   //Sets element to visible or invisible
-  let visible = boolean ? "visible" : "invisible";
+  let visible = boolean ? "visible" : "hidden";
   element.style.visibility = visible;
 };
 const resetBalance = (balance, element) => {
@@ -33,6 +33,10 @@ const addToBalance = (balance, amount, element) => {
 const addElementToDom = (containerElement, newElement) => {
   //Adds new element to dom from string
   containerElement.innerHTML += newElement;
+};
+const addElementToDomOnce = (containerElement, newElement) => {
+  //Adds new element to dom from string once
+  containerElement.innerHTML = newElement;
 };
 const loanAmount = () =>
   //Check if user has an unpaid loan
@@ -57,4 +61,5 @@ export {
   loanAmountElement,
   repayLoanButtonElement,
   elementVisible,
+  addElementToDomOnce,
 };

@@ -26,3 +26,10 @@ main {
 #laptopShowcaseImg {
   max-width: 260px;
 }
+#getLoanButton,
+#repayLoanButton,
+#bankTransferButton,
+#workButton {
+  width: 100%;
+  margin-bottom: 2%;
+}

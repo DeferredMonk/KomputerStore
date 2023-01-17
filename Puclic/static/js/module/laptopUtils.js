@@ -1,24 +1,33 @@
 import { fetchPosts } from "../api/posts.js";
 import { addToBankBalance, bankBalanceAmount } from "./bankUtils.js";
+import {
+  addElementToDom,
+  elementVisible,
+  getElementById,
+  addElementToDomOnce,
+  updateInnerText,
+} from "./utilsHelper.js";
 
 //Elements setup
-const ImgElement = document.getElementById("laptopShowcaseImg");
-const newTitleElement = document.createElement("h5");
-const newDescriptionElement = document.createElement("p");
-const newBuyNowButtonElement = document.createElement("button");
-const newPriceElement = document.createElement("p");
+const featureLiTemplate = (item) =>
+  //Template for li elements
+  `
+    <li>${item}</li>
+  `;
+const laptopImgElement = getElementById("laptopShowcaseImg");
+const buyButtonElement = getElementById("buyNowButton");
+const laptopTitleElement = getElementById("laptopTitle");
+const laptopPriceElement = getElementById("price");
+const laptopDescElement = getElementById("laptopDescription");
 const displayLaptopCardElement = document.getElementById(
   "displayLaptopCardContainer"
 );
-const laptopDescriptionBodyElement = document.getElementById(
-  "laptopDescriptionBody"
-);
-const laptopPriceAndBuyContainerElement = document.getElementById(
-  "laptopPriceAndBuyContainer"
-);
 const selectLaptopElement = document.getElementById("selectLaptopDropdown");
 const posts = await fetchPosts(); //Holds laptops from api
+
+//functions
 const getImg = (id, format) => {
+  //returns image url
   const url = `https://hickory-quilled-actress.glitch.me/assets/images/${id}.`;
 
   return url + format;
@@ -38,64 +47,66 @@ export const populateLaptopList = () => {
   });
 };
 
-const showcaseLaptop = async (item) => {
+const showcaseLaptop = (item) => {
   //Function display laptop info to card
   //Inserts item info to elements
-  displayLaptopCardElement.className = "card d-flex flex-row";
-  newBuyNowButtonElement.className = "btn btn-primary";
-  newBuyNowButtonElement.id = "buyNowButton";
-  newBuyNowButtonElement.innerText = "Buy now!";
-  ImgElement.src = getImg(item.id, "png");
-  ImgElement.onerror = () => {
-    ImgElement.src = getImg(item.id, "jpg");
-  };
-  newTitleElement.innerText = item.title;
-  newDescriptionElement.innerText = item.description;
-  newPriceElement.innerText = item.price;
 
-  console.log(await getImg(item.id));
-  //Append new item info to dom elements
-  laptopDescriptionBodyElement.appendChild(newTitleElement);
-  laptopDescriptionBodyElement.appendChild(newDescriptionElement);
-  laptopPriceAndBuyContainerElement.appendChild(newPriceElement);
-  laptopPriceAndBuyContainerElement.appendChild(newBuyNowButtonElement);
+  elementVisible(displayLaptopCardElement, true); //displays laptop info
+
+  //Adds laptops info to dom
+  updateInnerText(laptopTitleElement, item.title);
+  updateInnerText(laptopDescElement, item.description);
+  updateInnerText(laptopPriceElement, item.price);
+  laptopImgElement.src = getImg(item.id, "png");
+  //Img source and failsafe
+  laptopImgElement.onerror = () => {
+    laptopImgElement.src = getImg(item.id, "jpg");
+  };
 };
 
-//Laptop selection handler
+function onBuy() {
+  //Handles buying machine
+
+  const price = +laptopPriceElement.innerText; //Sets laptop price to variable
+
+  if (bankBalanceAmount >= price) {
+    //If buyer has enough money
+    addToBankBalance(-Math.abs(price)); //deduct price from bank balance
+    alert(`You now own a "${laptopTitleElement.innerText}". Congratulations!`); //Notification to user
+  } else {
+    //Not enougn money notification
+    alert(
+      `You do not have enougn money to purchase a "${laptopTitleElement.innerText}". Go get a job!`
+    );
+  }
+}
+
 selectLaptopElement.addEventListener("change", (e) => {
-  //Finds the selected laptops info
-  const chosenLaptop =
+  //Laptop selection handler
+
+  const chosenLaptop = //Finds the selected laptop info
     e.target.value !== "Select a laptop" &&
     posts.filter((item) => +e.target.value === item.id)[0];
-  //Gets features list element
-  const featuresListElement = document.getElementById("featuresList");
+
+  const featuresListElement = getElementById("featuresList"); //Gets features list element
   //Updates
   if (e.target.value === "Select a laptop") {
     //Handles features title
     featuresListElement.innerText = "";
-    displayLaptopCardElement.className = "invisible";
+    elementVisible(displayLaptopCardElement, false);
   } else {
     //Handles features title
     featuresListElement.innerText = "Features";
 
     chosenLaptop.specs.map((item) => {
-      //Updates features as list elements to select
-      const newLiElement = document.createElement("li");
-      newLiElement.innerText = item;
-      featuresListElement.appendChild(newLiElement);
+      //Updates features as li elements of selected laptop
+      addElementToDom(featuresListElement, featureLiTemplate(item));
     });
     showcaseLaptop(chosenLaptop);
   }
 });
 
-newBuyNowButtonElement.addEventListener("click", () => {
-  const price = +newPriceElement.innerText;
-  if (bankBalanceAmount >= price) {
-    addToBankBalance(-Math.abs(price));
-    alert(`You now own a "${newTitleElement.innerText}". Congratulations!`);
-  } else {
-    alert(
-      `You do not have enougn money to purchase a "${newTitleElement.innerText}". Go get a job!`
-    );
-  }
+buyButtonElement.addEventListener("click", () => {
+  //Buy now event hadler
+  onBuy();
 });
