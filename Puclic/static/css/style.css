@@ -23,3 +23,6 @@ main {
 #upperCardsContainer {
   justify-content: space-around;
 }
+#laptopShowcaseImg {
+  max-width: 260px;
+}

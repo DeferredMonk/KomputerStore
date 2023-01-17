@@ -1,7 +1,7 @@
-export default async function fetchPosts() {
+export async function fetchPosts() {
   try {
     const postsRespose = await fetch(
-      "https://jsonplaceholder.typicode.com/posts"
+      "https://hickory-quilled-actress.glitch.me/computers"
     );
     const posts = await postsRespose.json();
     return posts;

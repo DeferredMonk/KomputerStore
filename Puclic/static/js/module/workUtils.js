@@ -1,68 +1,97 @@
 import {
-  bankBalanceElement,
-  getLoanButtonElement,
-  getCardTextElement,
-  getLoanTextElement,
   getElementById,
   updateInnerText,
   workButtonElement,
-  bankTransferButton,
+  bankTransferButtonElement,
   workBalanceAmountElement,
   loanAmount,
-  addToBalance,
   resetBalance,
-  loanAmountElement,
   repayLoanButtonElement,
+  loanAmountElement,
+  getLoanTextElement,
+  elementVisible,
 } from "./utilsHelper.js";
 
 import { addToBankBalance } from "./bankUtils.js";
 
 //Variables
 let workBalanceAmount = 0; //Initial work balance
-let currentLoanAmount = 0;
+let loanHelper = 0; //Helper to calculate loan
 
 //Functions
 const getPaidForWork = (amount) => {
-  workBalanceAmount += amount; //Adds a certain amount of € to work balance
-  updateInnerText(workBalanceAmountElement, workBalanceAmount); //Update element with new balance
+  //Adds a certain amount of € to work balance
+  workBalanceAmount += amount;
+  updateInnerText(workBalanceAmountElement(), workBalanceAmount); //Update element with new balance
+};
+const resetWorkBalance = (balance, balanceContainer) => {
+  //Sets work balance to 0
+  workBalanceAmount = resetBalance(balance, balanceContainer);
+};
+const bankTransferHandler = (
+  balance,
+  loan,
+  loanElement,
+  loanElementContainer,
+  balanceContainer
+) => {
+  //bank transaction handler
+  if (loan > 0) {
+    //If the user is in debt deduction from transfer will happen
+    let tenPercent = balance * 0.1;
+    balance -= tenPercent;
+    updateInnerText(loanElement, loan - tenPercent);
+  }
+  if (loan <= 0 && loanElementContainer != null) {
+    //If user has paid his loan loan element will be removed from the dom
+    updateInnerText(loanElement, 0);
+    loanElementContainer.remove();
+  }
+  addToBankBalance(balance);
+  resetWorkBalance(balance, balanceContainer);
+};
+const repayButtonHandler = (loanElement, loan, balance) => {
+  //Repay loan button handler
+
+  updateInnerText(loanElement, loan); //Update loan amount to dom
+
+  if (loan <= 0) {
+    //If loan is paid of remove elements from dom or make invisible
+    elementVisible(repayLoanButtonElement, false);
+    getLoanTextElement().remove();
+  }
+  if (loan <= 0 && balance > 0) addToBankBalance(Math.abs(loan)); //If there is money left transfer to balance
+
+  resetWorkBalance(balance, workBalanceAmountElement()); //Reset work balance
 };
 
 //Event listeners
-bankTransferButton.addEventListener("click", () => {
+bankTransferButtonElement.addEventListener("click", () => {
   //Bank transfer button handler
-  if (loanAmount() > 0) {
-    let tenPercent = workBalanceAmount * 0.1;
-    workBalanceAmount -= tenPercent;
-    currentLoanAmount = loanAmount() - tenPercent;
-    updateInnerText(getElementById("loanAmount"), currentLoanAmount);
-  }
-  if (loanAmount() <= 0 && document.getElementById("loanContainer") != null) {
-    updateInnerText(getElementById("loanAmount"), 0);
-    document.getElementById("loanContainer").remove();
-  }
 
-  addToBankBalance(workBalanceAmount);
-  workBalanceAmount = resetBalance(workBalanceAmount, workBalanceAmountElement);
+  loanHelper = loanAmount(); //Sets current loan amount
+
+  //Event handler function
+  bankTransferHandler(
+    workBalanceAmount,
+    loanHelper,
+    loanAmountElement(),
+    getLoanTextElement(),
+    workBalanceAmountElement()
+  );
 });
 
 workButtonElement.addEventListener("click", () => {
-  //Work button handler adds 100 to work balance
-  getPaidForWork(100);
+  //Work button handler
+  getPaidForWork(100); //Event handler funtion
 });
+
 repayLoanButtonElement.addEventListener("click", () => {
-  currentLoanAmount = loanAmount() - workBalanceAmount;
-  let loanHelper =
-    loanAmount() > workBalanceAmount
-      ? loanAmount() - workBalanceAmount
-      : workBalanceAmount - loanAmount();
-  updateInnerText(getElementById("loanAmount"), currentLoanAmount);
-  if (currentLoanAmount <= 0) {
-    getElementById("repayLoanButton").style.visibility = "hidden";
-    document.getElementById("loanContainer").remove();
-  }
-  workBalanceAmount = resetBalance(workBalanceAmount, workBalanceAmountElement);
-  addToBankBalance(loanHelper);
-  console.log(currentLoanAmount, loanHelper);
+  //Repay loan button handler
+
+  loanHelper = loanAmount() - workBalanceAmount; //Remaining loan
+
+  repayButtonHandler(loanAmountElement(), loanHelper, workBalanceAmount); //Button handler
 });
 
 export { workBalanceAmount };
