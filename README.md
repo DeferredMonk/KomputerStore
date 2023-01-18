@@ -15,7 +15,10 @@ With vanilla JS.
 Laptops data is fetched and displayed accordingly.
 
 ### Eventlisteners
-By making use of eventlisteners user interaction work correctly
+By making use of eventlisteners user interaction work correctly.
+
+### Error handlers
+I've created error handlers for users bad inputs.
 
 ### Deployed
 https://komputerstore.netlify.app/
