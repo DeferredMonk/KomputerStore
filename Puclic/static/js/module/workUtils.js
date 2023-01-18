@@ -35,6 +35,11 @@ const bankTransferHandler = (
   balanceContainer
 ) => {
   //bank transaction handler
+  if (balance <= 0) {
+    //Error handler
+    alert("Your balance is 0€. Go to work!");
+    return;
+  }
   if (loan > 0) {
     //If the user is in debt deduction from transfer will happen
     let tenPercent = balance * 0.1;
@@ -51,6 +56,12 @@ const bankTransferHandler = (
 };
 const repayButtonHandler = (loanElement, loan, balance) => {
   //Repay loan button handler
+
+  if (balance <= 0) {
+    //Error handler
+    alert("Your balance is 0. Go to work!");
+    return;
+  }
 
   updateInnerText(loanElement, loan); //Update loan amount to dom
 
@@ -82,7 +93,6 @@ bankTransferButtonElement.addEventListener("click", () => {
 
 workButtonElement().addEventListener("click", () => {
   //Work button handler
-
   getPaidForWork(100); //Event handler funtion
 });
 
