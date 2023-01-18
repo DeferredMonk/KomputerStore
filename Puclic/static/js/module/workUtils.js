@@ -1,5 +1,4 @@
 import {
-  getElementById,
   updateInnerText,
   workButtonElement,
   bankTransferButtonElement,
@@ -81,8 +80,9 @@ bankTransferButtonElement.addEventListener("click", () => {
   );
 });
 
-workButtonElement.addEventListener("click", () => {
+workButtonElement().addEventListener("click", () => {
   //Work button handler
+
   getPaidForWork(100); //Event handler funtion
 });
 

@@ -2,9 +2,11 @@ import { fetchPosts } from "../api/posts.js";
 import { addToBankBalance, bankBalanceAmount } from "./bankUtils.js";
 import {
   addElementToDom,
+  convertKroneToEuro,
   elementVisible,
+  featuresListElement,
+  featuresTitleElement,
   getElementById,
-  addElementToDomOnce,
   updateInnerText,
 } from "./utilsHelper.js";
 
@@ -12,7 +14,7 @@ import {
 const featureLiTemplate = (item) =>
   //Template for li elements
   `
-    <li>${item}</li>
+    <li class="list-group-item" >${item}</li>
   `;
 const laptopImgElement = getElementById("laptopShowcaseImg");
 const buyButtonElement = getElementById("buyNowButton");
@@ -56,7 +58,7 @@ const showcaseLaptop = (item) => {
   //Adds laptops info to dom
   updateInnerText(laptopTitleElement, item.title);
   updateInnerText(laptopDescElement, item.description);
-  updateInnerText(laptopPriceElement, item.price);
+  updateInnerText(laptopPriceElement, convertKroneToEuro(item.price));
   laptopImgElement.src = getImg(item.id, "png");
   //Img source and failsafe
   laptopImgElement.onerror = () => {
@@ -74,7 +76,7 @@ function onBuy() {
     addToBankBalance(-Math.abs(price)); //deduct price from bank balance
     alert(`You now own a "${laptopTitleElement.innerText}". Congratulations!`); //Notification to user
   } else {
-    //Not enougn money notification
+    //Not enough money notification
     alert(
       `You do not have enougn money to purchase a "${laptopTitleElement.innerText}". Go get a job!`
     );
@@ -88,19 +90,18 @@ selectLaptopElement.addEventListener("change", (e) => {
     e.target.value !== "Select a laptop" &&
     posts.filter((item) => +e.target.value === item.id)[0];
 
-  const featuresListElement = getElementById("featuresList"); //Gets features list element
   //Updates
   if (e.target.value === "Select a laptop") {
     //Handles features title
-    featuresListElement.innerText = "";
+    featuresTitleElement.innerText = "";
     elementVisible(displayLaptopCardElement, false);
   } else {
-    //Handles features title
-    featuresListElement.innerText = "Features";
+    featuresTitleElement.innerText = "Features"; //Handles features title
+    featuresListElement().innerHTML = ""; //Reset features
 
     chosenLaptop.specs.map((item) => {
       //Updates features as li elements of selected laptop
-      addElementToDom(featuresListElement, featureLiTemplate(item));
+      addElementToDom(featuresListElement(), featureLiTemplate(item));
     });
     showcaseLaptop(chosenLaptop);
   }

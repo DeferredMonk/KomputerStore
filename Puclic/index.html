@@ -44,7 +44,7 @@
         </div>
         <div class="card mb-3" style="width: 18rem" id="bank-card">
           <div class="card-body">
-            <h5 class="card-title">Work</h5>
+            <h4 class="card-title">Work</h4>
             <div class="d-flex flex-column card-text" id="bankTextContainer">
               <div id="balanceContainer" class="d-flex">
                 <p>Balance</p>
@@ -59,14 +59,14 @@
               Repay loan
             </button>
             <button class="btn btn-dark" id="bankTransferButton">
-              Trf Bank
+              Transfer to bank
             </button>
             <button class="btn btn-success" id="workButton">Work</button>
           </div>
         </div>
         <div class="card mb-3" style="width: 18rem" id="bank-card">
           <div class="card-body">
-            <h5 class="card-title">Laptops</h5>
+            <h4 class="card-title">Laptops</h4>
             <select
               class="form-select"
               aria-label="Default select example"
@@ -74,26 +74,39 @@
             >
               <option selected>Select a laptop</option>
             </select>
-            <ul id="featuresList"></ul>
+            <h5 id="featuresTitle"></h5>
+            <ul id="featuresList" class="list-group list-group-flush"></ul>
           </div>
         </div>
       </div>
       <div
-        class="card d-flex flex-row"
-        id="displayLaptopCardContainer"
-        style="visibility: hidden"
+        id="laptopCardContainer"
+        style="display: flex; justify-content: center; width: 100%"
       >
-        <img id="laptopShowcaseImg" />
-        <div class="card-body" id="laptopDescriptionBody">
-          <h5 id="laptopTitle"></h5>
-          <p id="laptopDescription"></p>
-        </div>
-        <div id="laptopPriceAndBuyContainer" class="d-flex flex-column">
-          <p id="price"></p>
-          <button class="btn btn-primary" id="buyNowButton">Buy now!</button>
+        <div
+          class="card d-flex flex-row w-75"
+          id="displayLaptopCardContainer"
+          style="visibility: hidden"
+        >
+          <img id="laptopShowcaseImg" />
+          <div
+            class="card-body d-flex flex-column align-self-center"
+            id="laptopDescriptionBody"
+          >
+            <h5 id="laptopTitle" class="align-middle"></h5>
+            <p id="laptopDescription"></p>
+          </div>
+          <div
+            id="laptopPriceAndBuyContainer"
+            class="d-flex flex-column text-center w-25 align-self-center"
+          >
+            <p><span id="price"></span>€</p>
+            <button class="btn btn-primary" id="buyNowButton">Buy now!</button>
+          </div>
         </div>
       </div>
     </main>
     <script src="/Puclic/static/main.js" type="module"></script>
+    <script src="/Puclic/static/js/module/workUtils.js" type="module"></script>
   </body>
 </html>

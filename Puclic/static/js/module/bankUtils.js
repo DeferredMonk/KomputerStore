@@ -42,7 +42,6 @@ const requestLoan = () => {
   }
 
   loanAmount = +loanAmount; //Sets requested loan amount to type number
-  elementVisible(repayLoanButtonElement, true); //Makes loan button visible
 
   if (!loanAmountElement) {
     //If a loan is not active
@@ -50,6 +49,7 @@ const requestLoan = () => {
       //Loan handler
       addToBankBalance(loanAmount); //Updates loan amount to bank balance
       addElementToDom(getCardTextElement, loanElement(loanAmount)); //Adds loan counter to doms
+      elementVisible(repayLoanButtonElement, true); //Makes loan button visible
     } else if (!loanAmount) {
       //Error handler if user input is character or none
       alert("bad input!");
