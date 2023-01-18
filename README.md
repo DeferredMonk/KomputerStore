@@ -16,3 +16,6 @@ Laptops data is fetched and displayed accordingly.
 
 ### Eventlisteners
 By making use of eventlisteners user interaction work correctly
+
+### Deployed
+https://komputerstore.netlify.app/
