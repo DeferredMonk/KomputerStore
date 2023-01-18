@@ -30,7 +30,11 @@
       <div class="d-flex p-5" id="upperCardsContainer">
         <!--Container for card elements.
             using flex it allows for responsivenes -->
-        <div class="card mb-3" style="width: 18rem" id="bank-card">
+        <div
+          class="card mb-3"
+          style="width: 18rem; max-height: 240px"
+          id="bank-card"
+        >
           <div class="card-body">
             <h4 class="card-title">Joe banker</h4>
             <div class="d-flex flex-column card-text" id="bankTextContainer">
@@ -42,7 +46,11 @@
             <button class="btn btn-info" id="getLoanButton">Get loan</button>
           </div>
         </div>
-        <div class="card mb-3" style="width: 18rem" id="bank-card">
+        <div
+          class="card mb-3"
+          style="width: 18rem; max-height: 240px"
+          id="bank-card"
+        >
           <div class="card-body">
             <h4 class="card-title">Work</h4>
             <div class="d-flex flex-column card-text" id="bankTextContainer">
@@ -84,7 +92,7 @@
         style="display: flex; justify-content: center; width: 100%"
       >
         <div
-          class="card d-flex flex-row w-75"
+          class="card d-flex flex-row w-75 rounded overflow-hidden"
           id="displayLaptopCardContainer"
           style="visibility: hidden"
         >

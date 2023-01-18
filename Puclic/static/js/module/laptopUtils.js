@@ -94,6 +94,7 @@ selectLaptopElement.addEventListener("change", (e) => {
   if (e.target.value === "Select a laptop") {
     //Handles features title
     featuresTitleElement.innerText = "";
+    featuresListElement().innerHTML = ""; //Reset features
     elementVisible(displayLaptopCardElement, false);
   } else {
     featuresTitleElement.innerText = "Features"; //Handles features title
