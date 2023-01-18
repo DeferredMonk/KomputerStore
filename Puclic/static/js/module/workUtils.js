@@ -59,7 +59,7 @@ const repayButtonHandler = (loanElement, loan, balance) => {
 
   if (balance <= 0) {
     //Error handler
-    alert("Your balance is 0. Go to work!");
+    alert("Your balance is 0€. Go to work!");
     return;
   }
 
