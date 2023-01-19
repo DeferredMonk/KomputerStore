@@ -34,6 +34,7 @@ const bankTransferHandler = (
   loanElementContainer,
   balanceContainer
 ) => {
+  console.log(loan, "laina");
   //bank transaction handler
   if (balance <= 0) {
     //Error handler
@@ -45,11 +46,14 @@ const bankTransferHandler = (
     let tenPercent = balance * 0.1;
     balance -= tenPercent;
     updateInnerText(loanElement, loan - tenPercent);
+    loan -= tenPercent;
   }
+
   if (loan <= 0 && loanElementContainer != null) {
     //If user has paid his loan loan element will be removed from the dom
     updateInnerText(loanElement, 0);
     loanElementContainer.remove();
+    elementVisible(repayLoanButtonElement, false);
   }
   addToBankBalance(balance);
   resetWorkBalance(balance, balanceContainer);
